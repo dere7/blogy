@@ -36,8 +36,8 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    await this.usersRepository.save({ id, ...updateUserDto });
-    return this.findOne(id);
+    const user = await this.usersRepository.preload({ id, ...updateUserDto });
+    return this.usersRepository.save(user);
   }
 
   async remove(id: number) {

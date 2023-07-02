@@ -6,7 +6,8 @@ import {
   IsString,
   IsStrongPassword,
 } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from 'src/posts/entities/post.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -32,4 +33,7 @@ export class User {
   @IsOptional()
   @Column({ nullable: true })
   profile: string;
+
+  @OneToMany(() => Post, (post) => post.author, { onDelete: 'CASCADE' })
+  posts: Post[];
 }
