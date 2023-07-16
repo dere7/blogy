@@ -10,7 +10,6 @@ import {
   HttpStatus,
   Query,
   ParseIntPipe,
-  DefaultValuePipe,
   UseGuards,
   Req,
 } from '@nestjs/common';
@@ -20,7 +19,10 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Request } from 'express';
 import { CheckPostOwnershipGuard } from './posts.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
@@ -32,11 +34,8 @@ export class PostsController {
   }
 
   @Get()
-  findAll(
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
-  ) {
-    return this.postsService.findAll(limit, skip);
+  findAll(@Query() { limit, page }: PaginationQueryDto) {
+    return this.postsService.findAll(limit, page);
   }
 
   @Get(':id')

@@ -19,6 +19,9 @@ export class Post {
   @Column()
   title: string;
 
+  /**
+   * can be markdown string. It can take very long text.
+   */
   @IsString()
   @IsNotEmpty()
   @Column('text')

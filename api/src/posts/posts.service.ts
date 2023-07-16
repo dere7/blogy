@@ -20,8 +20,16 @@ export class PostsService {
     });
   }
 
-  findAll(limit: number, skip: number) {
-    return this.postsRepository.find({ skip, take: limit });
+  countAll() {
+    return this.postsRepository.count();
+  }
+
+  async findAll(limit: number, page: number) {
+    const skip = limit * (page - 1);
+    const total = await this.countAll();
+    const pages = Math.ceil(total / limit);
+    const posts = await this.postsRepository.find({ skip, take: limit });
+    return { page, limit, pages, total, posts };
   }
 
   findOne(id: number) {
