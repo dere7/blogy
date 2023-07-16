@@ -13,7 +13,7 @@ export class CheckPostOwnershipGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
-    const post = await this.postsService.findOne(+request.params?.id);
+    const post = await this.postsService.findOne(request.params?.id);
     if (request['user']?.sub !== post.author.id)
       throw new ForbiddenException("the post doesn't belong to you");
     return true;

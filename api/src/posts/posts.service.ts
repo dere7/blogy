@@ -13,7 +13,7 @@ export class PostsService {
     private usersService: UsersService,
   ) {}
 
-  async create(createPostDto: CreatePostDto, authorId: number) {
+  async create(createPostDto: CreatePostDto, authorId: string) {
     return this.postsRepository.save({
       createPostDto,
       author: await this.usersService.findOne(authorId),
@@ -32,16 +32,16 @@ export class PostsService {
     return { page, limit, pages, total, posts };
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.postsRepository.findOneBy({ id });
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(id: string, updatePostDto: UpdatePostDto) {
     const post = await this.postsRepository.preload({ id, ...updatePostDto });
     return this.postsRepository.save(post);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.postsRepository.delete(id);
   }
 }

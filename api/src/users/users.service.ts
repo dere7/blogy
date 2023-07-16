@@ -27,7 +27,7 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.usersRepository.findOneBy({ id });
   }
 
@@ -35,12 +35,12 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepository.preload({ id, ...updateUserDto });
     return this.usersRepository.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.usersRepository.delete(id);
   }
 }

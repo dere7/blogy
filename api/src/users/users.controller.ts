@@ -40,13 +40,13 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @Patch('me')
   update(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+req['user'].sub, updateUserDto);
+    return this.usersService.update(req['user'].sub, updateUserDto);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AuthGuard)
   @Delete('me')
   remove(@Req() req: Request) {
-    return this.usersService.remove(+req['user'].sub);
+    return this.usersService.remove(req['user'].sub);
   }
 }
